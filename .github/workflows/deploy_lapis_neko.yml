@@ -1,0 +1,79 @@
+name: Deploy Neko to Lapis
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'lapis/neko/**'
+      - '.github/workflows/deploy_lapis_neko.yml'
+  workflow_dispatch:
+    inputs:
+      server:
+        description: 'Server to deploy to'
+        required: true
+        default: 'lapis'
+        type: choice
+        options:
+          - lapis
+
+env:
+  SERVER_NAME: lapis
+  NODE_PORT: 30080
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'v1.28.0'
+
+    - name: Create .kube directory
+      run: mkdir -p $HOME/.kube
+
+    - name: Setup kubeconfig
+      env:
+        LAPIS_KUBE_CONFIG: ${{ secrets.LAPIS_KUBE_CONFIG }}
+        LAPIS_HOST: ${{ secrets.LAPIS_HOST }}
+      run: |
+        echo "$LAPIS_KUBE_CONFIG" | base64 -d > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
+        sed -i "s/127.0.0.1/$LAPIS_HOST/g" $HOME/.kube/config
+
+    - name: Test connection
+      run: |
+        kubectl cluster-info
+        kubectl get nodes
+
+    - name: Deploy to k3s
+      run: |
+        kubectl apply -f ${{ env.SERVER_NAME }}/neko/
+        
+        kubectl rollout status deployment/neko --timeout=300s
+        
+        echo "Deployment completed for ${{ env.SERVER_NAME }}"
+
+    - name: Get deployment status
+      run: |
+        echo "=== Pods ==="
+        kubectl get pods -l app=neko -o wide
+        
+        echo "=== Services ==="
+        kubectl get services -l app=neko
+        
+        echo "=== Ingress ==="
+        kubectl get ingress
+
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "🎉 Deployment to ${{ env.SERVER_NAME }} completed successfully!"
+        else
+          echo "❌ Deployment to ${{ env.SERVER_NAME }} failed!"
+        fi
