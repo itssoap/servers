@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  policies.json: |
+    {
+      "AutofillAddressEnabled": false,
+      "AutofillCreditCardEnabled": false,
+      "BrowserSignin": 0,
+      "DefaultNotificationsSetting": 2,
+      "DeveloperToolsAvailability": 2,
+      "EditBookmarksEnabled": false,
+      "FullscreenAllowed": true,
+      "IncognitoModeAvailability": 1,
+      "SyncDisabled": true,
+      "AutoplayAllowed": true,
+      "BrowserAddPersonEnabled": false,
+      "BrowserGuestModeEnabled": false,
+      "DefaultPopupsSetting": 2,
+      "DownloadRestrictions": 0,
+      "VideoCaptureAllowed": true,
+      "AllowFileSelectionDialogs": true,
+      "PromptForDownloadLocation": false,
+      "BookmarkBarEnabled": false,
+      "PasswordManagerEnabled": false,
+      "BrowserLabsEnabled": false,
+      "URLAllowlist": [
+        "file:///home/neko/Downloads"
+      ],
+      "URLBlocklist": [
+          "file://*",
+          "chrome://policy"
+      ],
+      "ExtensionInstallForcelist": [
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm;https://clients2.google.com/service/update2/crx",
+          "mnjggcdmjocbbbhaepdhchncahnbgone;https://clients2.google.com/service/update2/crx",
+          "ilehaonighjijnmpnagapkhpcdbhclfg;https://clients2.google.com/service/update2/crx"
+      ],
+      "ExtensionInstallAllowlist": [
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm",
+          "mnjggcdmjocbbbhaepdhchncahnbgone",
+          "ilehaonighjijnmpnagapkhpcdbhclfg"
+      ],
+      "ExtensionInstallBlocklist": [
+          "*"
+      ]
+    }
+metadata:
+  annotations:
+    use-subpath: "true"
+  name: neko-cm0
