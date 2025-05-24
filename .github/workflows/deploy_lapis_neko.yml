@@ -18,7 +18,7 @@ on:
 
 env:
   SERVER_NAME: lapis
-  NODE_PORT: 30080
+  NODE_PORT: 8096
 
 jobs:
   deploy:
