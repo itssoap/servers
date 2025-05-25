@@ -54,7 +54,7 @@ jobs:
         script: |
           set -euo pipefail
           echo "[INFO] Switching to deployment directory"
-          cd $REMOTE_PATH
+          cd ${{ env.REMOTE_PATH}}
           echo "[INFO] Applying Kubernetes manifests"
           kubectl apply -f .
           echo "[INFO] Verifying rollout of deployments"
