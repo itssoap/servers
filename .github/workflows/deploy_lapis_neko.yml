@@ -28,6 +28,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Setup Tailscale
+      uses: tailscale/github-action@v3
+      with:
+        authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+        tags: tag:ci
+
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
       with:
