@@ -42,7 +42,7 @@ jobs:
         host: ${{ secrets.LAPIS_HOST }}
         username: ${{ secrets.LAPIS_USER }}
         key: ${{ secrets.LAPIS_SSH_KEY }}
-        source: "${{ env.K8S_DIR }}/*"
+        source: "${{ env.K8S_DIR }}/configmap.yml,${{ env.K8S_DIR }}/deployment.yml,${{ env.K8S_DIR }}/service.yml"
         target: "${{ env.REMOTE_PATH }}"
 
     - name: Apply and verify deployment
