@@ -19,7 +19,7 @@ on:
 env:
   SERVER_NAME: lapis
   NODE_PORT: 8096
-  REMOTE_PATH: "/home/${{ secrets.SSH_USER }}/Others/neko"
+  REMOTE_PATH: "/home/${{ secrets.LAPIS_USER }}/Others/neko"
   K8S_DIR: "lapis/neko"
 
 jobs:
