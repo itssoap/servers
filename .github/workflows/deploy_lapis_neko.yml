@@ -19,7 +19,7 @@ on:
 env:
   SERVER_NAME: lapis
   NODE_PORT: 8096
-  REMOTE_PATH: "/home/${{ secrets.LAPIS_USER }}/Others/neko"
+  REMOTE_PATH: "/home/${{ secrets.LAPIS_USER }}/Others/neko/k8s"
   K8S_DIR: "lapis/neko"
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
         target: "${{ env.REMOTE_PATH }}"
 
     - name: Apply and verify deployment
-      uses: appleboy/ssh-action@v1.0.0
+      uses: appleboy/ssh-action@v1
       with:
         host: ${{ secrets.LAPIS_HOST }}
         username: ${{ secrets.LAPIS_USER }}
