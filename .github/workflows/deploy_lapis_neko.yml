@@ -37,36 +37,32 @@ jobs:
         tags: tag:ci
 
     - name: Copy manifests to remote server
-        uses: appleboy/scp-action@v1
-        with:
-          host: ${{ secrets.LAPIS_HOST }}
-          username: ${{ secrets.LAPIS_USER }}
-          key: ${{ secrets.LAPIS_SSH_KEY }}
-          source: "${{ env.K8S_DIR }}/*"
-          target: "${{ env.REMOTE_PATH }}"
-
-     - name: Apply and verify deployment
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.LAPIS_HOST }}
-          username: ${{ secrets.LAPIS_USER }}
-          key: ${{ secrets.LAPIS_SSH_KEY }}
-          script: |
-            set -euo pipefail
-
-            echo "[INFO] Switching to deployment directory"
-            cd $REMOTE_PATH
-
-            echo "[INFO] Applying Kubernetes manifests"
-            kubectl apply -f .
-
-            echo "[INFO] Verifying rollout of deployments"
-            for deploy in $(kubectl get deploy -o jsonpath='{.items[*].metadata.name}'); do
-              echo "[INFO] Checking rollout status for $deploy"
-              kubectl rollout status deployment/$deploy --timeout=60s
-            done
-
-            echo "[INFO] Deployment successful"
+      uses: appleboy/scp-action@v1
+      with:
+        host: ${{ secrets.LAPIS_HOST }}
+        username: ${{ secrets.LAPIS_USER }}
+        key: ${{ secrets.LAPIS_SSH_KEY }}
+        source: "${{ env.K8S_DIR }}/*"
+        target: "${{ env.REMOTE_PATH }}"
+        
+    - name: Apply and verify deployment
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.LAPIS_HOST }}
+        username: ${{ secrets.LAPIS_USER }}
+        key: ${{ secrets.LAPIS_SSH_KEY }}
+        script: |
+          set -euo pipefail
+          echo "[INFO] Switching to deployment directory"
+          cd $REMOTE_PATH
+          echo "[INFO] Applying Kubernetes manifests"
+          kubectl apply -f .
+          echo "[INFO] Verifying rollout of deployments"
+          for deploy in $(kubectl get deploy -o jsonpath='{.items[*].metadata.name}'); do
+            echo "[INFO] Checking rollout status for $deploy"
+            kubectl rollout status deployment/$deploy --timeout=60s
+          done
+          echo "[INFO] Deployment successful"
    
     # - name: Setup kubeconfig
     #   env:
