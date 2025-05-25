@@ -58,7 +58,7 @@ jobs:
           echo "[INFO] Print the folder contents"
           tree
           echo "[INFO] Applying Kubernetes manifests"
-          kubectl apply -f .
+          kubectl apply -f ${{ env.K8S_DIR }}/.
           echo "[INFO] Verifying rollout of deployments"
           for deploy in $(kubectl get deploy -o jsonpath='{.items[*].metadata.name}'); do
             echo "[INFO] Checking rollout status for $deploy"
