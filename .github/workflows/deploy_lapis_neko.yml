@@ -56,7 +56,7 @@ jobs:
           echo "[INFO] Switching to deployment directory"
           cd ${{ env.REMOTE_PATH}}
           echo "[INFO] Print the folder contents"
-          ls -ltrcah
+          tree
           echo "[INFO] Applying Kubernetes manifests"
           kubectl apply -f .
           echo "[INFO] Verifying rollout of deployments"
