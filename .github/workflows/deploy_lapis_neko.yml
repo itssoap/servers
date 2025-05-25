@@ -45,10 +45,10 @@ jobs:
         chmod 600 $HOME/.kube/config
         sed -i "s/127.0.0.1/$LAPIS_HOST/g" $HOME/.kube/config
 
-    - name: Test connection
-      run: |
-        kubectl cluster-info
-        kubectl get nodes
+    # - name: Test connection
+    #   run: |
+    #     kubectl cluster-info 
+    #     kubectl get nodes
 
     - name: Deploy to k3s
       run: |
