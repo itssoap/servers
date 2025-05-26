@@ -5,10 +5,12 @@ metadata:
     io.kompose.service: neko
   name: neko
 spec:
+  type: NodePort
   ports:
-    - name: "8096"
-      port: 8096
+    - name: "30496"
+      port: 8080
       targetPort: 8080
+      nodePort: 30496
     - name: "52000"
       port: 52000
       protocol: UDP
