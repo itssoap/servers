@@ -26,7 +26,8 @@ spec:
               value: admin
             - name: NEKO_SCREEN
               value: 1280x720@30
-          image: ghcr.io/m1k1o/neko/arm-chromium:latest
+          image: ghcr.io/m1k1o/neko/chromium:latest
+          imagePullPolicy: IfNotPresent
           name: neko
           ports:
             - containerPort: 8080
