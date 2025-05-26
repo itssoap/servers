@@ -1,12 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    io.kompose.service: neko
   name: neko
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      io.kompose.service: neko
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        io.kompose.service: neko
     spec:
       containers:
         - env:

@@ -47,4 +47,6 @@ data:
 metadata:
   annotations:
     use-subpath: "true"
+  labels:
+    io.kompose.service: neko
   name: neko-cm0
